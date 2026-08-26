@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard - FestiFlow</title>
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+    <header class="header">
+        <div class="container nav">
+            <div class="nav-logo" style="color: var(--danger);"><i class="fa-solid fa-water"></i> FestiFlow Admin</div>
+            <div class="nav-links">
+                <a href="#">Festivals</a>
+                <a href="#">Points</a>
+                <a href="#">Bookings</a>
+                <a href="../index.html" class="btn btn-outline">Logout</a>
+            </div>
+        </div>
+    </header>
+
+    <div class="container mt-2">
+        <h2 class="mb-2">System Overview</h2>
+        
+        <div class="grid mb-3">
+            <div class="card text-center" style="border-top: 4px solid var(--primary);">
+                <h3 style="color:#64748b;">Total Users</h3>
+                <h1 style="font-size: 3rem; color:var(--text);">1,245</h1>
+            </div>
+            <div class="card text-center" style="border-top: 4px solid var(--secondary);">
+                <h3 style="color:#64748b;">Active Bookings</h3>
+                <h1 style="font-size: 3rem; color:var(--text);">8,920</h1>
+            </div>
+            <div class="card text-center" style="border-top: 4px solid var(--danger);">
+                <h3 style="color:#64748b;">High Crowd Spots</h3>
+                <h1 style="font-size: 3rem; color:var(--text);">4</h1>
+            </div>
+        </div>
+
+        <h3 class="mb-1">Recent Bookings (Mock View)</h3>
+        <div class="card" style="overflow-x:auto;">
+            <table style="width: 100%; text-align: left; border-collapse: collapse;">
+                <tr style="border-bottom: 2px solid var(--border);">
+                    <th style="padding: 10px;">Booking ID</th>
+                    <th style="padding: 10px;">User</th>
+                    <th style="padding: 10px;">Location</th>
+                    <th style="padding: 10px;">Time</th>
+                    <th style="padding: 10px;">Status</th>
+                </tr>
+                <tr style="border-bottom: 1px solid var(--border);">
+                    <td style="padding: 10px;">BKG-9842</td>
+                    <td style="padding: 10px;">John Doe</td>
+                    <td style="padding: 10px;">Girgaon Chowpatty</td>
+                    <td style="padding: 10px;">8:00 PM</td>
+                    <td style="padding: 10px;"><span class="badge badge-success">Confirmed</span></td>
+                </tr>
+                <tr style="border-bottom: 1px solid var(--border);">
+                    <td style="padding: 10px;">BKG-1123</td>
+                    <td style="padding: 10px;">Jane Smith</td>
+                    <td style="padding: 10px;">Juhu Beach</td>
+                    <td style="padding: 10px;">7:00 PM</td>
+                    <td style="padding: 10px;"><span class="badge badge-warning">Waitlisted</span></td>
+                </tr>
+            </table>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Bookings - FestiFlow</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <header class="header">
+        <div class="container nav">
+            <div class="nav-logo"><a href="dashboard.html"><i class="fa-solid fa-water"></i> FestiFlow</a></div>
+            <div class="nav-links">
+                <a href="dashboard.html">Dashboard</a>
+                <a href="index.html" class="btn btn-outline">Logout</a>
+            </div>
+        </div>
+    </header>
+
+    <div class="container mt-2">
+        <h2 class="mb-2">My Bookings</h2>
+        
+        <div class="grid">
+            <!-- Mock Booking 1 -->
+            <div class="card" style="border-left: 4px solid var(--success);">
+                <div class="flex flex-between align-center mb-1">
+                    <h3>Ganesh Visarjan 2024</h3>
+                    <span class="badge badge-success">Confirmed</span>
+                </div>
+                <p class="mb-1"><strong>ID:</strong> BKG-9842</p>
+                <p><i class="fa-solid fa-location-dot"></i> Girgaon Chowpatty</p>
+                <p><i class="fa-regular fa-clock"></i> 8:00 PM - 9:00 PM (Sept 17)</p>
+                <p class="mb-1">Group Size: 4</p>
+                <div class="mt-1 flex gap-1">
+                    <button class="btn btn-secondary">View QR Code</button>
+                    <button class="btn btn-outline" style="color: var(--danger); border-color: var(--danger);">Cancel</button>
+                </div>
+            </div>
+
+            <!-- Mock Booking 2 -->
+            <div class="card" style="border-left: 4px solid var(--warning);">
+                <div class="flex flex-between align-center mb-1">
+                    <h3>Navratri Durga Puja</h3>
+                    <span class="badge badge-warning">Waitlisted</span>
+                </div>
+                <p class="mb-1"><strong>ID:</strong> BKG-1123</p>
+                <p><i class="fa-solid fa-location-dot"></i> Powai Lake</p>
+                <p><i class="fa-regular fa-clock"></i> 7:00 PM - 8:00 PM (Oct 22)</p>
+                <p class="mb-1">Group Size: 2</p>
+                <div class="mt-1">
+                    <button class="btn btn-outline" style="color: var(--danger); border-color: var(--danger);">Leave Waitlist</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
