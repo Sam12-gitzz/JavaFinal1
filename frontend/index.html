@@ -3,10 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>FestiFlow - Manage the crowd. Immerse with peace.</title>
+    <title>FestiFlow - Modern Festival Booking</title>
     <link rel="stylesheet" href="css/style.css">
 </head>
-<body>
+<body class="fade-in">
     <header class="header">
         <div class="container nav">
             <div class="nav-logo"><i class="fa-solid fa-water"></i> FestiFlow</div>
@@ -21,30 +21,37 @@
     <section class="hero">
         <div class="container">
             <h1>Immerse with <span>Peace</span></h1>
-            <p>Manage festival crowds efficiently. Find the best times and locations for your immersion rituals, avoid traffic, and ensure a safe experience for your group.</p>
-            <div class="mt-2">
-                <a href="login.html" class="btn btn-primary">Find Your Slot</a>
+            <p>Choose your festival, find the right immersion point, and book a less-crowded time for your group.</p>
+            <div class="flex flex-center gap-1 mt-2" style="justify-content: center;">
+                <a href="login.html" class="btn btn-primary"><i class="fa-solid fa-star"></i> Find My Best Slot</a>
+                <a href="dashboard.html" class="btn btn-secondary">Explore Festivals</a>
             </div>
         </div>
     </section>
 
     <section class="container mt-3 mb-3">
-        <h2 class="text-center mb-2">How FestiFlow Works</h2>
+        <h2 class="text-center mb-3">How FestiFlow Works</h2>
         <div class="grid">
-            <div class="card text-center">
-                <i class="fa-solid fa-calendar-check fa-3x" style="color: var(--primary); margin-bottom:15px;"></i>
+            <div class="card text-center" style="border-top: 4px solid var(--primary);">
+                <div style="background: #fff7ed; width: 80px; height: 80px; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 20px;">
+                    <i class="fa-solid fa-calendar-check fa-2x" style="color: var(--primary);"></i>
+                </div>
                 <h3>1. Choose Event</h3>
-                <p>Select your festival and view active immersion points across the city.</p>
+                <p class="mt-1">Select your festival and view active immersion points across the city.</p>
             </div>
-            <div class="card text-center">
-                <i class="fa-solid fa-location-dot fa-3x" style="color: var(--secondary); margin-bottom:15px;"></i>
+            <div class="card text-center" style="border-top: 4px solid var(--secondary);">
+                <div style="background: #eff6ff; width: 80px; height: 80px; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 20px;">
+                    <i class="fa-solid fa-location-dot fa-2x" style="color: var(--secondary);"></i>
+                </div>
                 <h3>2. Pick a Spot</h3>
-                <p>Check live crowd capacities and find the closest location to you.</p>
+                <p class="mt-1">Check live crowd capacities and find the closest location to you.</p>
             </div>
-            <div class="card text-center">
-                <i class="fa-solid fa-ticket fa-3x" style="color: var(--success); margin-bottom:15px;"></i>
+            <div class="card text-center" style="border-top: 4px solid var(--success);">
+                <div style="background: #f0fdf4; width: 80px; height: 80px; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 20px;">
+                    <i class="fa-solid fa-ticket fa-2x" style="color: var(--success);"></i>
+                </div>
                 <h3>3. Book a Slot</h3>
-                <p>Reserve a time slot for your group and get a QR code for entry.</p>
+                <p class="mt-1">Reserve a time slot for your group and get a QR code for entry.</p>
             </div>
         </div>
     </section>

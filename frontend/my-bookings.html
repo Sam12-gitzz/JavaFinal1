@@ -6,7 +6,7 @@
     <title>My Bookings - FestiFlow</title>
     <link rel="stylesheet" href="css/style.css">
 </head>
-<body>
+<body class="fade-in">
     <header class="header">
         <div class="container nav">
             <div class="nav-logo"><a href="dashboard.html"><i class="fa-solid fa-water"></i> FestiFlow</a></div>
@@ -17,39 +17,48 @@
         </div>
     </header>
 
-    <div class="container mt-2">
-        <h2 class="mb-2">My Bookings</h2>
+    <div class="container mt-3 mb-3">
+        <div class="flex flex-between align-center mb-2">
+            <h2>My Bookings</h2>
+            <span class="badge badge-primary">2 Active</span>
+        </div>
         
         <div class="grid">
             <!-- Mock Booking 1 -->
-            <div class="card" style="border-left: 4px solid var(--success);">
+            <div class="card" style="border-top: 4px solid var(--success);">
                 <div class="flex flex-between align-center mb-1">
-                    <h3>Ganesh Visarjan 2024</h3>
-                    <span class="badge badge-success">Confirmed</span>
+                    <h3>Ganesh Visarjan</h3>
+                    <span class="badge badge-success"><i class="fa-solid fa-check"></i> Confirmed</span>
                 </div>
-                <p class="mb-1"><strong>ID:</strong> BKG-9842</p>
-                <p><i class="fa-solid fa-location-dot"></i> Girgaon Chowpatty</p>
-                <p><i class="fa-regular fa-clock"></i> 8:00 PM - 9:00 PM (Sept 17)</p>
-                <p class="mb-1">Group Size: 4</p>
-                <div class="mt-1 flex gap-1">
-                    <button class="btn btn-secondary">View QR Code</button>
-                    <button class="btn btn-outline" style="color: var(--danger); border-color: var(--danger);">Cancel</button>
+                <p class="mb-1" style="font-size:0.9rem; color:var(--text-secondary);"><strong>Booking ID:</strong> BKG-9842</p>
+                
+                <div style="background: var(--bg-blue); padding: 12px; border-radius: var(--radius-sm); margin-bottom: 15px;">
+                    <p style="margin-bottom: 5px;"><i class="fa-solid fa-location-dot" style="color:var(--secondary); width:20px;"></i> <strong>Girgaon Chowpatty</strong></p>
+                    <p style="margin-bottom: 5px;"><i class="fa-regular fa-clock" style="color:var(--secondary); width:20px;"></i> 8:00 PM - 9:00 PM</p>
+                    <p><i class="fa-solid fa-users" style="color:var(--secondary); width:20px;"></i> Group Size: 4</p>
+                </div>
+
+                <div class="flex gap-1">
+                    <button class="btn btn-primary btn-block"><i class="fa-solid fa-qrcode"></i> Show Ticket</button>
+                    <button class="btn btn-outline" style="border-color: var(--danger); color: var(--danger);"><i class="fa-solid fa-xmark"></i></button>
                 </div>
             </div>
 
             <!-- Mock Booking 2 -->
-            <div class="card" style="border-left: 4px solid var(--warning);">
+            <div class="card" style="border-top: 4px solid var(--warning);">
                 <div class="flex flex-between align-center mb-1">
-                    <h3>Navratri Durga Puja</h3>
-                    <span class="badge badge-warning">Waitlisted</span>
+                    <h3>Durga Puja</h3>
+                    <span class="badge badge-warning"><i class="fa-solid fa-clock-rotate-left"></i> Waitlist</span>
                 </div>
-                <p class="mb-1"><strong>ID:</strong> BKG-1123</p>
-                <p><i class="fa-solid fa-location-dot"></i> Powai Lake</p>
-                <p><i class="fa-regular fa-clock"></i> 7:00 PM - 8:00 PM (Oct 22)</p>
-                <p class="mb-1">Group Size: 2</p>
-                <div class="mt-1">
-                    <button class="btn btn-outline" style="color: var(--danger); border-color: var(--danger);">Leave Waitlist</button>
+                <p class="mb-1" style="font-size:0.9rem; color:var(--text-secondary);"><strong>Booking ID:</strong> BKG-1123</p>
+                
+                <div style="background: #fffbeb; padding: 12px; border-radius: var(--radius-sm); margin-bottom: 15px;">
+                    <p style="margin-bottom: 5px;"><i class="fa-solid fa-location-dot" style="color:var(--warning); width:20px;"></i> <strong>Powai Lake</strong></p>
+                    <p style="margin-bottom: 5px;"><i class="fa-regular fa-clock" style="color:var(--warning); width:20px;"></i> 7:00 PM - 8:00 PM</p>
+                    <p><i class="fa-solid fa-users" style="color:var(--warning); width:20px;"></i> Group Size: 2</p>
                 </div>
+
+                <button class="btn btn-outline btn-block" style="border-color: var(--danger); color: var(--danger);">Leave Waitlist</button>
             </div>
         </div>
     </div>

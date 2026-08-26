@@ -6,41 +6,56 @@
     <title>Booking Confirmed - FestiFlow</title>
     <link rel="stylesheet" href="css/style.css">
 </head>
-<body>
+<body class="fade-in">
     <header class="header">
         <div class="container nav">
             <div class="nav-logo"><a href="dashboard.html"><i class="fa-solid fa-water"></i> FestiFlow</a></div>
         </div>
     </header>
 
-    <div class="container mt-3" style="max-width: 600px; text-align: center;">
-        <div class="card">
-            <i class="fa-solid fa-circle-check fa-4x mb-1" style="color: var(--success);"></i>
+    <div class="container mt-3 mb-3" style="max-width: 650px;">
+        
+        <!-- Booking Stepper -->
+        <div class="stepper mb-3">
+            <div class="step active"><div class="step-circle"><i class="fa-solid fa-check"></i></div></div>
+            <div class="step active"><div class="step-circle"><i class="fa-solid fa-check"></i></div></div>
+            <div class="step active"><div class="step-circle"><i class="fa-solid fa-check"></i></div></div>
+            <div class="step active">
+                <div class="step-circle"><i class="fa-solid fa-check"></i></div>
+                <span>Confirmed</span>
+            </div>
+        </div>
+
+        <div class="card text-center" style="border-top: 6px solid var(--success); padding: 40px 20px;">
+            <div style="width: 80px; height: 80px; background: #f0fdf4; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 20px;">
+                <i class="fa-solid fa-check fa-3x" style="color: var(--success);"></i>
+            </div>
             <h2 class="mb-1">Booking Confirmed!</h2>
-            <p>Your slot has been successfully reserved. Please show the QR code below at the entry point.</p>
+            <p class="mb-2">Your slot has been reserved. Please show this QR code at the entry point.</p>
             
-            <div class="mt-2 mb-2" style="background: #f1f5f9; padding: 20px; border-radius: var(--radius); display:inline-block; border: 2px dashed #cbd5e1;">
-                <!-- Fake QR Code Placeholder -->
-                <i class="fa-solid fa-qrcode fa-6x" style="color: #334155;"></i>
-                <p class="mt-1"><strong>ID: <span id="booking-id">BKG-XXXX</span></strong></p>
+            <div class="mb-3" style="background: var(--surface); padding: 20px; border-radius: var(--radius-md); display:inline-block; border: 2px dashed var(--border); box-shadow: var(--shadow-sm);">
+                <i class="fa-solid fa-qrcode fa-6x" style="color: var(--text-primary);"></i>
+                <p class="mt-1" style="font-size: 1.2rem;"><strong>ID: <span id="booking-id">BKG-XXXX</span></strong></p>
             </div>
             
-            <div class="mb-2 text-left" style="text-align: left; background: var(--surface); padding: 20px; border: 1px solid var(--border); border-radius: var(--radius);">
-                <p class="mb-1"><strong>Location:</strong> Girgaon Chowpatty</p>
-                <p class="mb-1"><strong>Time:</strong> 8:00 PM - 9:00 PM</p>
-                <p class="mb-1"><strong>Group Size:</strong> 4</p>
-                <p><strong>Status:</strong> <span class="badge badge-success">Confirmed</span></p>
+            <div class="text-left mb-3" style="background: var(--bg-warm); padding: 20px; border-radius: var(--radius-sm); border: 1px solid #fed7aa;">
+                <h4 class="mb-1" style="color: var(--primary-dark);"><i class="fa-solid fa-ticket"></i> Entry Details</h4>
+                <div class="grid" style="grid-template-columns: 1fr 1fr; gap: 10px;">
+                    <div><small style="color: var(--text-secondary);">Location</small><br><strong>Girgaon Chowpatty</strong></div>
+                    <div><small style="color: var(--text-secondary);">Time</small><br><strong>8:00 PM - 9:00 PM</strong></div>
+                    <div><small style="color: var(--text-secondary);">Date</small><br><strong>Sept 17, 2024</strong></div>
+                    <div><small style="color: var(--text-secondary);">Group Size</small><br><strong>4 People</strong></div>
+                </div>
             </div>
             
-            <div class="flex gap-1" style="flex-direction: column;">
-                <a href="dashboard.html" class="btn btn-primary btn-block">Back to Dashboard</a>
-                <a href="#" class="btn btn-outline btn-block">Download Ticket</a>
+            <div class="flex gap-1 flex-center" style="justify-content: center;">
+                <a href="dashboard.html" class="btn btn-primary"><i class="fa-solid fa-house"></i> Home</a>
+                <a href="my-bookings.html" class="btn btn-secondary">View My Bookings</a>
             </div>
         </div>
     </div>
 
     <script>
-        // Extract the mock booking ID from the URL and display it
         const urlParams = new URLSearchParams(window.location.search);
         const id = urlParams.get('id') || 'BKG-1234';
         document.getElementById('booking-id').innerText = id;

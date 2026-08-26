@@ -6,12 +6,12 @@
     <title>Dashboard - FestiFlow</title>
     <link rel="stylesheet" href="css/style.css">
 </head>
-<body>
+<body class="fade-in">
     <header class="header">
         <div class="container nav">
             <div class="nav-logo"><a href="dashboard.html"><i class="fa-solid fa-water"></i> FestiFlow</a></div>
             <div class="nav-links">
-                <a href="dashboard.html">Dashboard</a>
+                <a href="dashboard.html" style="color: var(--primary); font-weight: 600;">Dashboard</a>
                 <a href="my-bookings.html">My Bookings</a>
                 <a href="index.html" class="btn btn-outline">Logout</a>
             </div>
@@ -21,35 +21,49 @@
     <div class="container dashboard-layout">
         <main>
             <h2 class="mb-1">Welcome back, Student!</h2>
+            <p class="mb-2">Manage your festival bookings and explore upcoming events.</p>
             
-            <!-- Smart Suggest Banner -->
-            <div class="card mb-2" style="background: linear-gradient(135deg, var(--secondary), #0369a1); color: white;">
+            <div class="card smart-card mb-3">
                 <div class="flex flex-between align-center">
                     <div>
-                        <h3>Not sure when to visit?</h3>
-                        <p>Let our Smart Suggest find the best slot for your group size and location.</p>
+                        <h3 class="smart-card-header"><i class="fa-solid fa-wand-magic-sparkles"></i> Smart Slot Selection</h3>
+                        <p class="mt-1" style="color: var(--text-primary);">Let FestiFlow find a suitable low-crowd slot for you.</p>
                     </div>
-                    <a href="points.html?smart=true" class="btn btn-primary" style="background: white; color: var(--secondary);">Find Best Slot</a>
+                    <a href="points.html?smart=true" class="btn btn-primary" style="position: relative; z-index: 1;">Find Best Slot</a>
                 </div>
             </div>
             
-            <h3 class="mb-1">Active Festivals</h3>
+            <h3 class="mb-2">Featured Festivals</h3>
             <div class="grid" id="festivals-container">
                 <!-- Data loaded via dashboard.js -->
             </div>
         </main>
         
         <aside>
-            <h3 class="mb-1">Crowd & Capacity Alerts</h3>
+            <h3 class="mb-2">Live Crowd Alerts</h3>
             
-            <div class="alert-box">
-                <h4><i class="fa-solid fa-triangle-exclamation"></i> High Crowd Expected</h4>
-                <p>Girgaon Chowpatty is expected to reach max capacity after 8 PM today. Consider booking earlier slots.</p>
+            <div class="alert alert-info">
+                <div class="alert-icon"><i class="fa-solid fa-circle-info"></i></div>
+                <div class="alert-content">
+                    <h4>INFO</h4>
+                    <p>More slots are available at Dadar between 7–9 PM.</p>
+                </div>
+            </div>
+
+            <div class="alert alert-warning">
+                <div class="alert-icon"><i class="fa-solid fa-triangle-exclamation"></i></div>
+                <div class="alert-content">
+                    <h4>MODERATE</h4>
+                    <p>Moderate capacity at Juhu Beach currently.</p>
+                </div>
             </div>
             
-            <div class="alert-box" style="border-color: var(--success); background: #ecfdf5;">
-                <h4 style="color: #065f46;"><i class="fa-solid fa-circle-info"></i> Powai Lake Open</h4>
-                <p>Additional evening slots have been added for the Powai Lake immersion point.</p>
+            <div class="alert alert-danger">
+                <div class="alert-icon"><i class="fa-solid fa-circle-exclamation"></i></div>
+                <div class="alert-content">
+                    <h4>HIGH CROWD</h4>
+                    <p>High occupancy expected at Girgaon after 8 PM.</p>
+                </div>
             </div>
         </aside>
     </div>

@@ -6,10 +6,10 @@
     <title>Admin Dashboard - FestiFlow</title>
     <link rel="stylesheet" href="../css/style.css">
 </head>
-<body>
+<body class="fade-in">
     <header class="header">
         <div class="container nav">
-            <div class="nav-logo" style="color: var(--danger);"><i class="fa-solid fa-water"></i> FestiFlow Admin</div>
+            <div class="nav-logo" style="color: var(--danger);"><i class="fa-solid fa-shield-halved"></i> FestiFlow Admin</div>
             <div class="nav-links">
                 <a href="#">Festivals</a>
                 <a href="#">Points</a>
@@ -19,47 +19,58 @@
         </div>
     </header>
 
-    <div class="container mt-2">
+    <div class="container mt-3">
         <h2 class="mb-2">System Overview</h2>
         
         <div class="grid mb-3">
-            <div class="card text-center" style="border-top: 4px solid var(--primary);">
-                <h3 style="color:#64748b;">Total Users</h3>
-                <h1 style="font-size: 3rem; color:var(--text);">1,245</h1>
+            <div class="card text-center" style="border-top: 5px solid var(--primary);">
+                <div style="background: #fff7ed; width: 60px; height: 60px; border-radius: 12px; display: flex; align-items: center; justify-content: center; margin: 0 auto 15px;">
+                    <i class="fa-solid fa-users fa-xl" style="color: var(--primary);"></i>
+                </div>
+                <h3 style="color: var(--text-secondary); font-size: 1.1rem; font-weight: 500;">Total Users</h3>
+                <h1 style="font-size: 2.5rem; color: var(--text-primary);">1,245</h1>
             </div>
-            <div class="card text-center" style="border-top: 4px solid var(--secondary);">
-                <h3 style="color:#64748b;">Active Bookings</h3>
-                <h1 style="font-size: 3rem; color:var(--text);">8,920</h1>
+            
+            <div class="card text-center" style="border-top: 5px solid var(--secondary);">
+                <div style="background: #eff6ff; width: 60px; height: 60px; border-radius: 12px; display: flex; align-items: center; justify-content: center; margin: 0 auto 15px;">
+                    <i class="fa-solid fa-ticket fa-xl" style="color: var(--secondary);"></i>
+                </div>
+                <h3 style="color: var(--text-secondary); font-size: 1.1rem; font-weight: 500;">Active Bookings</h3>
+                <h1 style="font-size: 2.5rem; color: var(--text-primary);">8,920</h1>
             </div>
-            <div class="card text-center" style="border-top: 4px solid var(--danger);">
-                <h3 style="color:#64748b;">High Crowd Spots</h3>
-                <h1 style="font-size: 3rem; color:var(--text);">4</h1>
+            
+            <div class="card text-center" style="border-top: 5px solid var(--danger);">
+                <div style="background: #fef2f2; width: 60px; height: 60px; border-radius: 12px; display: flex; align-items: center; justify-content: center; margin: 0 auto 15px;">
+                    <i class="fa-solid fa-fire fa-xl" style="color: var(--danger);"></i>
+                </div>
+                <h3 style="color: var(--text-secondary); font-size: 1.1rem; font-weight: 500;">High Crowd Spots</h3>
+                <h1 style="font-size: 2.5rem; color: var(--text-primary);">4</h1>
             </div>
         </div>
 
-        <h3 class="mb-1">Recent Bookings (Mock View)</h3>
-        <div class="card" style="overflow-x:auto;">
+        <h3 class="mb-2">Recent Bookings</h3>
+        <div class="card" style="overflow-x:auto; padding: 0;">
             <table style="width: 100%; text-align: left; border-collapse: collapse;">
-                <tr style="border-bottom: 2px solid var(--border);">
-                    <th style="padding: 10px;">Booking ID</th>
-                    <th style="padding: 10px;">User</th>
-                    <th style="padding: 10px;">Location</th>
-                    <th style="padding: 10px;">Time</th>
-                    <th style="padding: 10px;">Status</th>
+                <tr style="background: var(--bg-warm); border-bottom: 2px solid var(--border);">
+                    <th style="padding: 16px 20px; font-weight: 600; color: var(--text-secondary);">Booking ID</th>
+                    <th style="padding: 16px 20px; font-weight: 600; color: var(--text-secondary);">User</th>
+                    <th style="padding: 16px 20px; font-weight: 600; color: var(--text-secondary);">Location</th>
+                    <th style="padding: 16px 20px; font-weight: 600; color: var(--text-secondary);">Time</th>
+                    <th style="padding: 16px 20px; font-weight: 600; color: var(--text-secondary);">Status</th>
                 </tr>
-                <tr style="border-bottom: 1px solid var(--border);">
-                    <td style="padding: 10px;">BKG-9842</td>
-                    <td style="padding: 10px;">John Doe</td>
-                    <td style="padding: 10px;">Girgaon Chowpatty</td>
-                    <td style="padding: 10px;">8:00 PM</td>
-                    <td style="padding: 10px;"><span class="badge badge-success">Confirmed</span></td>
+                <tr style="border-bottom: 1px solid var(--border); transition: var(--transition);">
+                    <td style="padding: 16px 20px; font-weight: 500;">BKG-9842</td>
+                    <td style="padding: 16px 20px;">John Doe</td>
+                    <td style="padding: 16px 20px;">Girgaon Chowpatty</td>
+                    <td style="padding: 16px 20px;">8:00 PM</td>
+                    <td style="padding: 16px 20px;"><span class="badge badge-success">Confirmed</span></td>
                 </tr>
-                <tr style="border-bottom: 1px solid var(--border);">
-                    <td style="padding: 10px;">BKG-1123</td>
-                    <td style="padding: 10px;">Jane Smith</td>
-                    <td style="padding: 10px;">Juhu Beach</td>
-                    <td style="padding: 10px;">7:00 PM</td>
-                    <td style="padding: 10px;"><span class="badge badge-warning">Waitlisted</span></td>
+                <tr style="border-bottom: 1px solid var(--border); transition: var(--transition);">
+                    <td style="padding: 16px 20px; font-weight: 500;">BKG-1123</td>
+                    <td style="padding: 16px 20px;">Jane Smith</td>
+                    <td style="padding: 16px 20px;">Juhu Beach</td>
+                    <td style="padding: 16px 20px;">7:00 PM</td>
+                    <td style="padding: 16px 20px;"><span class="badge badge-moderate">Waitlisted</span></td>
                 </tr>
             </table>
         </div>

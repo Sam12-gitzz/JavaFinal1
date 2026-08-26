@@ -6,7 +6,7 @@
     <title>Immersion Points - FestiFlow</title>
     <link rel="stylesheet" href="css/style.css">
 </head>
-<body>
+<body class="fade-in">
     <header class="header">
         <div class="container nav">
             <div class="nav-logo"><a href="dashboard.html"><i class="fa-solid fa-water"></i> FestiFlow</a></div>
@@ -18,11 +18,30 @@
         </div>
     </header>
 
-    <div class="container mt-2 mb-3">
-        <h2 class="mb-1">Select Immersion Point</h2>
+    <div class="container mt-3 mb-3">
+        <!-- Booking Stepper -->
+        <div class="stepper" style="max-width: 800px; margin: 0 auto 40px;">
+            <div class="step active">
+                <div class="step-circle"><i class="fa-solid fa-check"></i></div>
+                <span>Festival</span>
+            </div>
+            <div class="step active">
+                <div class="step-circle">2</div>
+                <span>Point & Slot</span>
+            </div>
+            <div class="step">
+                <div class="step-circle">3</div>
+                <span>Details</span>
+            </div>
+            <div class="step">
+                <div class="step-circle">4</div>
+                <span>Confirm</span>
+            </div>
+        </div>
+
+        <h2 class="mb-2">Select Immersion Point</h2>
         
-        <!-- Smart Recommendation Container (Hidden by default) -->
-        <div id="smart-recommendation" class="mb-2" style="display:none;"></div>
+        <div id="smart-recommendation" class="mb-3" style="display:none; max-width: 800px; margin: 0 auto 30px;"></div>
         
         <div class="grid" id="points-container">
             <!-- Points loaded via points.js -->
