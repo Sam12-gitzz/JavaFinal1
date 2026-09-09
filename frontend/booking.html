@@ -65,6 +65,65 @@
                     <a href="points.html" class="btn btn-secondary btn-block">Back</a>
                     <button type="submit" class="btn btn-primary btn-block">Confirm Booking <i class="fa-solid fa-arrow-right"></i></button>
                 </div>
+</head>
+<body class="fade-in">
+    <header class="header">
+        <div class="container nav">
+            <div class="nav-logo"><a href="dashboard.html"><i class="fa-solid fa-water"></i> FestiFlow</a></div>
+            <div class="nav-links">
+                <a href="dashboard.html">Dashboard</a>
+            </div>
+        </div>
+    </header>
+
+    <div class="container mt-3 mb-3" style="max-width: 700px;">
+        
+        <!-- Booking Stepper -->
+        <div class="stepper mb-3">
+            <div class="step active">
+                <div class="step-circle"><i class="fa-solid fa-check"></i></div>
+                <span>Festival</span>
+            </div>
+            <div class="step active">
+                <div class="step-circle"><i class="fa-solid fa-check"></i></div>
+                <span>Point & Slot</span>
+            </div>
+            <div class="step active">
+                <div class="step-circle">3</div>
+                <span>Details</span>
+            </div>
+            <div class="step">
+                <div class="step-circle">4</div>
+                <span>Confirm</span>
+            </div>
+        </div>
+
+        <div class="card" style="border-top: 4px solid var(--primary);">
+            <h2 class="mb-2 text-center">Complete Your Booking</h2>
+            
+            <div class="mb-2" style="background: var(--bg-blue); padding: 20px; border-radius: var(--radius-sm); border: 1px solid #bfdbfe;">
+                <h4 style="color: var(--secondary-dark); margin-bottom: 10px;"><i class="fa-solid fa-calendar-check"></i> Booking Summary</h4>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+                    <div><small style="color: var(--text-secondary);">Festival</small><br><strong>Ganesh Visarjan 2024</strong></div>
+                    <div><small style="color: var(--text-secondary);">Date</small><br><strong>Sept 17, 2024</strong></div>
+                    <div><small style="color: var(--text-secondary);">Location</small><br><strong id="b-location"><i class="fa-solid fa-circle-notch fa-spin"></i></strong></div>
+                    <div><small style="color: var(--text-secondary);">Time Slot</small><br><strong id="b-time"><i class="fa-solid fa-circle-notch fa-spin"></i></strong></div>
+                </div>
+            </div>
+            
+            <form id="booking-form">
+                <div class="form-group">
+                    <label>Group Size (Max 15)</label>
+                    <input type="number" id="groupSize" class="form-control" min="1" max="15" required value="1">
+                </div>
+                <div class="form-group">
+                    <label>Primary Contact (Optional)</label>
+                    <input type="text" class="form-control" placeholder="+91 XXXXX XXXXX">
+                </div>
+                <div class="mt-3 flex gap-1">
+                    <a href="points.html" class="btn btn-secondary btn-block">Back</a>
+                    <button type="submit" class="btn btn-primary btn-block">Confirm Booking <i class="fa-solid fa-arrow-right"></i></button>
+                </div>
             </form>
         </div>
     </div>
@@ -72,19 +131,83 @@
     <script src="js/api.js"></script>
     <script>
         document.addEventListener("DOMContentLoaded", async () => {
-            setTimeout(() => {
-                document.getElementById('b-location').innerText = "Girgaon Chowpatty";
-                document.getElementById('b-time').innerText = "8:00 PM - 9:00 PM";
-            }, 300); // Simulate load
+            const urlParams = new URLSearchParams(window.location.search);
+            const slotId = parseInt(urlParams.get('slot'));
+            const pointId = parseInt(urlParams.get('point'));
             
-            document.getElementById('booking-form').addEventListener('submit', async (e) => {
+            // Security check
+            const currentUser = Store.getCurrentUser();
+            if (!currentUser) {
+                window.location.href = 'login.html';
+                return;
+            }
+
+            const slot = Store.getSlot(slotId);
+            if(!slot) {
+                alert("Invalid slot selected.");
+                window.location.href = 'dashboard.html';
+                return;
+            }
+
+            // Using mock API just for display names (since Store only has IDs)
+            const points = await api.getPoints(slot.festival);
+            const point = points.find(p => p.id === slot.point);
+
+            document.getElementById('b-location').innerText = point ? point.name : "Unknown Location";
+            document.getElementById('b-time').innerText = slot.time;
+            
+            const groupSizeInput = document.getElementById('groupSize');
+            // Update max to equal capacityRemaining dynamically
+            groupSizeInput.max = slot.capacityRemaining;
+            
+            // Add a visual helper text for max capacity
+            const formGroup = groupSizeInput.parentElement;
+            const helperText = document.createElement('small');
+            helperText.style.color = "var(--text-secondary)";
+            helperText.innerText = `Only ${slot.capacityRemaining} spots remaining in this slot.`;
+            formGroup.appendChild(helperText);
+
+            document.getElementById('booking-form').addEventListener('submit', (e) => {
                 e.preventDefault();
-                const groupSize = document.getElementById('groupSize').value;
+                const groupSize = parseInt(groupSizeInput.value);
+                
+                // Re-fetch slot in case it changed in localStorage while user was idle
+                const currentSlot = Store.getSlot(slotId);
+                
+                if (groupSize > currentSlot.capacityRemaining) {
+                    alert(`Cannot book! Only ${currentSlot.capacityRemaining} spots left. Please reduce group size or choose another slot.`);
+                    return;
+                }
+                
                 const btn = e.target.querySelector('button[type="submit"]');
                 btn.innerHTML = '<i class="fa-solid fa-circle-notch fa-spin"></i> Processing...';
                 
-                const res = await api.bookSlot({ groupSize });
-                window.location.href = `confirmation.html?id=${res.bookingId}`;
+                // STEP 1 LOGIC: Execute booking
+                const newRemaining = currentSlot.capacityRemaining - groupSize;
+                Store.updateSlotCapacity(slotId, newRemaining);
+                
+                const bookingId = "BKG-" + Math.floor(Math.random() * 10000);
+                const qrPayload = `FESTIFLOW|${bookingId}|${currentUser.id}|${slotId}|${groupSize}`;
+                
+                const newBooking = {
+                    id: bookingId,
+                    userId: currentUser.id,
+                    userName: currentUser.name,
+                    userEmail: currentUser.email,
+                    pointName: point ? point.name : "Unknown Location",
+                    slotTime: currentSlot.time,
+                    date: "Sept 17, 2026", // Mock hardcoded date for now
+                    slotId: slotId,
+                    groupSize: groupSize,
+                    status: "confirmed",
+                    qrCode: qrPayload,
+                    createdAt: new Date().toISOString()
+                };
+                
+                Store.addBooking(newBooking);
+                
+                // Redirect
+                window.location.href = `confirmation.html?id=${bookingId}`;
             });
         });
     </script>

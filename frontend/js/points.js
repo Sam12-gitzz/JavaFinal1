@@ -45,9 +45,9 @@ document.addEventListener("DOMContentLoaded", async () => {
         `;
     }
 
-    const festId = urlParams.get('festival') || 1;
+    const festId = parseInt(urlParams.get('festival')) || 1;
     const points = await api.getPoints(festId); 
-    const allSlots = JSON.parse(localStorage.getItem('slots') || '[]');
+    const allSlots = Store.getSlots();
     
     points.forEach(point => {
         // Aggregate exact capacity from slots
@@ -57,10 +57,14 @@ document.addEventListener("DOMContentLoaded", async () => {
             point.occupancy = point.capacity - pointSlots.reduce((sum, s) => sum + s.capacityRemaining, 0);
             
             // Dynamic Crowd Level
-            const occupancyRate = point.occupancy / point.capacity;
+            const occupancyRate = point.capacity > 0 ? (point.occupancy / point.capacity) : 0;
             if (occupancyRate > 0.8) point.crowdLevel = 'High';
-            else if (occupancyRate > 0.4) point.crowdLevel = 'Moderate';
+            else if (occupancyRate > 0.5) point.crowdLevel = 'Moderate';
             else point.crowdLevel = 'Low';
+        } else {
+            point.capacity = 0;
+            point.occupancy = 0;
+            point.crowdLevel = 'Low';
         }
 
         let badgeClass = 'badge-low';
@@ -99,11 +103,12 @@ document.addEventListener("DOMContentLoaded", async () => {
 
 window.loadSlots = async function(pointId) {
     const slotContainer = document.getElementById(`slots-for-${pointId}`);
-    slotContainer.innerHTML = '<div class="text-center padding:20px;"><i class="fa-solid fa-circle-notch fa-spin"></i> Loading...</div>';
     
-    const slots = await api.getSlots(pointId);
+    // Fetch slots from our shared localStorage Store
+    const allSlots = Store.getSlots();
+    const slots = allSlots.filter(s => s.point === pointId);
     
-    // ITEM 3: Empty / Error State for Slots
+    // Empty / Error State for Slots
     const availableSlots = slots.filter(s => s.capacityRemaining > 0);
     if (slots.length === 0 || availableSlots.length === 0) {
         slotContainer.innerHTML = `
@@ -118,19 +123,20 @@ window.loadSlots = async function(pointId) {
     let html = '<div class="mt-2" style="display:flex; flex-direction:column; gap:12px;">';
     
     slots.forEach(slot => {
-        const isFull = slot.capacityRemaining === 0;
+        const isFull = slot.capacityRemaining <= 0;
         const cardClass = isFull ? 'slot-full' : 'slot-selected'; 
         const badgeColor = isFull ? 'badge-full' : 'badge-low';
         const remaining = slot.capacityRemaining;
-        const pct = Math.floor(((slot.capacityTotal - slot.capacityRemaining) / slot.capacityTotal) * 100);
+        const pct = slot.capacityTotal > 0 ? Math.floor(((slot.capacityTotal - slot.capacityRemaining) / slot.capacityTotal) * 100) : 0;
         
+        // Show live "X/100 filled" computed from capacityRemaining
         html += `
             <div class="slot-card ${isFull ? 'slot-full' : ''}">
                 <div style="flex:1;">
                     <div style="font-weight:600; font-size:1.1rem; color: var(--text-primary); margin-bottom:4px;">${slot.time}</div>
                     <div class="flex align-center gap-1">
                         <span class="badge ${badgeColor}" style="padding:2px 8px; font-size:0.7rem;">${isFull ? 'FULL' : 'AVAILABLE'} • ${pct}% filled</span>
-                        <span style="font-size:0.85rem; color: var(--text-secondary);">${remaining} left</span>
+                        <span style="font-size:0.85rem; color: var(--text-secondary);">${remaining}/${slot.capacityTotal} left</span>
                     </div>
                 </div>
                 <div>

@@ -12,7 +12,7 @@ document.addEventListener("DOMContentLoaded", async () => {
         
         const badgeClass = fest.status === 'Active' ? 'badge-success' : 'badge-warning';
         const imgUrl = fest.id === 1 
-            ? "https://images.unsplash.com/photo-1600084534484-9dfc29c54e26?auto=format&fit=crop&w=600&q=80" 
+            ? "images/ganesh-visarjan.jpg" 
             : "https://images.unsplash.com/photo-1514525253161-7a46d19cd819?auto=format&fit=crop&w=600&q=80";
         
         card.innerHTML = `

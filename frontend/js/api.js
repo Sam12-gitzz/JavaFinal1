@@ -3,7 +3,7 @@
 // e.g. return fetch('/api/festivals').then(r => r.json());
 
 const mockFestivals = [
-    { id: 1, name: "Ganesh Visarjan 2024", date: "Sept 17 - Sept 28, 2024", desc: "City-wide immersion event.", pointsCount: 12, status: "Active" },
+    { id: 1, name: "Ganesh Visarjan 2026", date: "Sept 14 - Sept 25, 2026", desc: "City-wide immersion event.", pointsCount: 12, status: "Active" },
     { id: 2, name: "Navratri Durga Puja", date: "Oct 15 - Oct 24, 2024", desc: "Local immersion spots for Durga idols.", pointsCount: 5, status: "Upcoming" }
 ];
 
