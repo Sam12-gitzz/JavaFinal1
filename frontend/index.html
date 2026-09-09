@@ -11,7 +11,6 @@
         <div class="container nav">
             <div class="nav-logo"><i class="fa-solid fa-water"></i> FestiFlow</div>
             <div class="nav-links">
-                <a href="admin/dashboard.html">Admin</a>
                 <a href="login.html" class="btn btn-outline">Login</a>
                 <a href="register.html" class="btn btn-primary">Register</a>
             </div>
@@ -23,8 +22,8 @@
             <h1>Immerse with <span>Peace</span></h1>
             <p>Choose your festival, find the right immersion point, and book a less-crowded time for your group.</p>
             <div class="flex flex-center gap-1 mt-2" style="justify-content: center;">
-                <a href="login.html" class="btn btn-primary"><i class="fa-solid fa-star"></i> Find My Best Slot</a>
-                <a href="dashboard.html" class="btn btn-secondary">Explore Festivals</a>
+                <a href="#" id="btn-smart-slot" class="btn btn-primary"><i class="fa-solid fa-star"></i> Find My Best Slot</a>
+                <a href="#" id="btn-explore" class="btn btn-secondary">Explore Festivals</a>
             </div>
         </div>
     </section>
@@ -55,5 +54,24 @@
             </div>
         </div>
     </section>
+
+    <script>
+        // ITEM 2: CTA Funnel Consistency
+        document.addEventListener("DOMContentLoaded", () => {
+            const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+            const btnSmart = document.getElementById('btn-smart-slot');
+            const btnExplore = document.getElementById('btn-explore');
+
+            if (currentUser) {
+                // Logged In Flow
+                btnSmart.href = 'points.html?smart=true';
+                btnExplore.href = 'dashboard.html';
+            } else {
+                // Logged Out Flow
+                btnSmart.href = 'login.html';
+                btnExplore.href = 'login.html';
+            }
+        });
+    </script>
 </body>
 </html>

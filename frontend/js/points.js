@@ -1,4 +1,11 @@
 document.addEventListener("DOMContentLoaded", async () => {
+    // 1. Authentication Check
+    const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+    if (!currentUser) {
+        window.location.href = 'login.html';
+        return;
+    }
+
     const urlParams = new URLSearchParams(window.location.search);
     const isSmart = urlParams.get('smart');
     const container = document.getElementById("points-container");
@@ -38,15 +45,30 @@ document.addEventListener("DOMContentLoaded", async () => {
         `;
     }
 
-    const points = await api.getPoints(1); 
+    const festId = urlParams.get('festival') || 1;
+    const points = await api.getPoints(festId); 
+    const allSlots = JSON.parse(localStorage.getItem('slots') || '[]');
     
     points.forEach(point => {
+        // Aggregate exact capacity from slots
+        const pointSlots = allSlots.filter(s => s.point === point.id);
+        if (pointSlots.length > 0) {
+            point.capacity = pointSlots.reduce((sum, s) => sum + s.capacityTotal, 0);
+            point.occupancy = point.capacity - pointSlots.reduce((sum, s) => sum + s.capacityRemaining, 0);
+            
+            // Dynamic Crowd Level
+            const occupancyRate = point.occupancy / point.capacity;
+            if (occupancyRate > 0.8) point.crowdLevel = 'High';
+            else if (occupancyRate > 0.4) point.crowdLevel = 'Moderate';
+            else point.crowdLevel = 'Low';
+        }
+
         let badgeClass = 'badge-low';
         let progressClass = 'bg-low';
         if(point.crowdLevel === 'Moderate') { badgeClass = 'badge-moderate'; progressClass = 'bg-moderate'; }
         if(point.crowdLevel === 'High') { badgeClass = 'badge-high'; progressClass = 'bg-high'; }
         
-        const pct = Math.floor((point.occupancy / point.capacity) * 100);
+        const pct = point.capacity > 0 ? Math.floor((point.occupancy / point.capacity) * 100) : 0;
 
         const card = document.createElement("div");
         card.className = "card";
@@ -80,21 +102,34 @@ window.loadSlots = async function(pointId) {
     slotContainer.innerHTML = '<div class="text-center padding:20px;"><i class="fa-solid fa-circle-notch fa-spin"></i> Loading...</div>';
     
     const slots = await api.getSlots(pointId);
+    
+    // ITEM 3: Empty / Error State for Slots
+    const availableSlots = slots.filter(s => s.capacityRemaining > 0);
+    if (slots.length === 0 || availableSlots.length === 0) {
+        slotContainer.innerHTML = `
+            <div class="mt-2 text-center" style="padding: 25px 15px; background: var(--bg-warm); border-radius: var(--radius-sm); border: 2px dashed var(--border);">
+                <i class="fa-solid fa-calendar-xmark fa-2x mb-1" style="color: var(--text-secondary); opacity: 0.6;"></i>
+                <p style="color: var(--text-secondary); font-weight: 500;">No slots currently available at this location.</p>
+            </div>
+        `;
+        return;
+    }
+
     let html = '<div class="mt-2" style="display:flex; flex-direction:column; gap:12px;">';
     
     slots.forEach(slot => {
-        const isFull = slot.status === 'Full';
+        const isFull = slot.capacityRemaining === 0;
         const cardClass = isFull ? 'slot-full' : 'slot-selected'; 
         const badgeColor = isFull ? 'badge-full' : 'badge-low';
-        const remaining = slot.max - slot.booked;
-        const pct = Math.floor((slot.booked / slot.max) * 100);
+        const remaining = slot.capacityRemaining;
+        const pct = Math.floor(((slot.capacityTotal - slot.capacityRemaining) / slot.capacityTotal) * 100);
         
         html += `
             <div class="slot-card ${isFull ? 'slot-full' : ''}">
                 <div style="flex:1;">
                     <div style="font-weight:600; font-size:1.1rem; color: var(--text-primary); margin-bottom:4px;">${slot.time}</div>
                     <div class="flex align-center gap-1">
-                        <span class="badge ${badgeColor}" style="padding:2px 8px; font-size:0.7rem;">${isFull ? 'FULL' : 'LOW'} • ${pct}%</span>
+                        <span class="badge ${badgeColor}" style="padding:2px 8px; font-size:0.7rem;">${isFull ? 'FULL' : 'AVAILABLE'} • ${pct}% filled</span>
                         <span style="font-size:0.85rem; color: var(--text-secondary);">${remaining} left</span>
                     </div>
                 </div>

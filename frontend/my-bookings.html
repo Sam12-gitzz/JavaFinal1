@@ -12,7 +12,7 @@
             <div class="nav-logo"><a href="dashboard.html"><i class="fa-solid fa-water"></i> FestiFlow</a></div>
             <div class="nav-links">
                 <a href="dashboard.html">Dashboard</a>
-                <a href="index.html" class="btn btn-outline">Logout</a>
+                <a href="index.html" class="btn btn-outline" onclick="localStorage.removeItem('currentUser')">Logout</a>
             </div>
         </div>
     </header>
@@ -20,47 +20,113 @@
     <div class="container mt-3 mb-3">
         <div class="flex flex-between align-center mb-2">
             <h2>My Bookings</h2>
-            <span class="badge badge-primary">2 Active</span>
+            <span id="active-count" class="badge badge-primary">0 Active</span>
         </div>
         
-        <div class="grid">
-            <!-- Mock Booking 1 -->
-            <div class="card" style="border-top: 4px solid var(--success);">
-                <div class="flex flex-between align-center mb-1">
-                    <h3>Ganesh Visarjan</h3>
-                    <span class="badge badge-success"><i class="fa-solid fa-check"></i> Confirmed</span>
-                </div>
-                <p class="mb-1" style="font-size:0.9rem; color:var(--text-secondary);"><strong>Booking ID:</strong> BKG-9842</p>
-                
-                <div style="background: var(--bg-blue); padding: 12px; border-radius: var(--radius-sm); margin-bottom: 15px;">
-                    <p style="margin-bottom: 5px;"><i class="fa-solid fa-location-dot" style="color:var(--secondary); width:20px;"></i> <strong>Girgaon Chowpatty</strong></p>
-                    <p style="margin-bottom: 5px;"><i class="fa-regular fa-clock" style="color:var(--secondary); width:20px;"></i> 8:00 PM - 9:00 PM</p>
-                    <p><i class="fa-solid fa-users" style="color:var(--secondary); width:20px;"></i> Group Size: 4</p>
-                </div>
-
-                <div class="flex gap-1">
-                    <button class="btn btn-primary btn-block"><i class="fa-solid fa-qrcode"></i> Show Ticket</button>
-                    <button class="btn btn-outline" style="border-color: var(--danger); color: var(--danger);"><i class="fa-solid fa-xmark"></i></button>
-                </div>
-            </div>
-
-            <!-- Mock Booking 2 -->
-            <div class="card" style="border-top: 4px solid var(--warning);">
-                <div class="flex flex-between align-center mb-1">
-                    <h3>Durga Puja</h3>
-                    <span class="badge badge-warning"><i class="fa-solid fa-clock-rotate-left"></i> Waitlist</span>
-                </div>
-                <p class="mb-1" style="font-size:0.9rem; color:var(--text-secondary);"><strong>Booking ID:</strong> BKG-1123</p>
-                
-                <div style="background: #fffbeb; padding: 12px; border-radius: var(--radius-sm); margin-bottom: 15px;">
-                    <p style="margin-bottom: 5px;"><i class="fa-solid fa-location-dot" style="color:var(--warning); width:20px;"></i> <strong>Powai Lake</strong></p>
-                    <p style="margin-bottom: 5px;"><i class="fa-regular fa-clock" style="color:var(--warning); width:20px;"></i> 7:00 PM - 8:00 PM</p>
-                    <p><i class="fa-solid fa-users" style="color:var(--warning); width:20px;"></i> Group Size: 2</p>
-                </div>
-
-                <button class="btn btn-outline btn-block" style="border-color: var(--danger); color: var(--danger);">Leave Waitlist</button>
-            </div>
+        <div class="grid" id="bookings-container">
+            <!-- Bookings loaded via JS -->
         </div>
     </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", renderBookings);
+
+        function renderBookings() {
+            const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+            if(!currentUser) {
+                window.location.href = 'login.html';
+                return;
+            }
+
+            const container = document.getElementById("bookings-container");
+            const countBadge = document.getElementById("active-count");
+            
+            const allBookings = JSON.parse(localStorage.getItem('bookings') || '[]');
+            const myBookings = allBookings.filter(b => b.userId === currentUser.id || b.userEmail === currentUser.email);
+            const activeBookings = myBookings.filter(b => b.status === "confirmed");
+
+            countBadge.innerText = `${activeBookings.length} Active`;
+            container.innerHTML = ''; // Clear container
+
+            // ITEM 3: Empty State
+            if(myBookings.length === 0) {
+                container.innerHTML = `
+                    <div class="card text-center" style="grid-column: 1/-1; padding: 40px 20px;">
+                        <i class="fa-solid fa-ticket fa-3x mb-2" style="color: var(--text-secondary); opacity: 0.5;"></i>
+                        <h3 class="mb-1">No Active Bookings</h3>
+                        <p style="color: var(--text-secondary); margin-bottom: 20px;">You have no bookings yet — browse festivals to book a slot.</p>
+                        <a href="dashboard.html" class="btn btn-primary"><i class="fa-solid fa-compass"></i> Explore Festivals</a>
+                    </div>
+                `;
+                return;
+            }
+
+            myBookings.reverse().forEach(booking => {
+                const isCancelled = booking.status === 'cancelled';
+                const cardBorder = isCancelled ? 'var(--text-secondary)' : 'var(--success)';
+                const badgeHtml = isCancelled 
+                    ? `<span class="badge" style="background: var(--text-secondary); color: white;"><i class="fa-solid fa-xmark"></i> Cancelled</span>`
+                    : `<span class="badge badge-success"><i class="fa-solid fa-check"></i> Confirmed</span>`;
+                
+                const card = document.createElement("div");
+                card.className = "card";
+                card.style.borderTop = `4px solid ${cardBorder}`;
+                if(isCancelled) card.style.opacity = '0.7';
+                
+                card.innerHTML = `
+                    <div class="flex flex-between align-center mb-1">
+                        <h3 style="font-size:1.1rem; font-weight: 700;">${booking.festivalName}</h3>
+                        ${badgeHtml}
+                    </div>
+                    <p class="mb-1" style="font-size:0.9rem; color:var(--text-secondary);"><strong>Booking ID:</strong> ${booking.id}</p>
+                    
+                    <div style="background: var(--bg-blue); padding: 12px; border-radius: var(--radius-sm); margin-bottom: 15px;">
+                        <p style="margin-bottom: 5px;"><i class="fa-solid fa-location-dot" style="color:var(--secondary); width:20px;"></i> <strong>${booking.pointName}</strong></p>
+                        <p style="margin-bottom: 5px;"><i class="fa-regular fa-calendar" style="color:var(--secondary); width:20px;"></i> ${booking.date}</p>
+                        <p style="margin-bottom: 5px;"><i class="fa-regular fa-clock" style="color:var(--secondary); width:20px;"></i> ${booking.slotTime}</p>
+                        <p><i class="fa-solid fa-users" style="color:var(--secondary); width:20px;"></i> Group Size: ${booking.groupSize}</p>
+                    </div>
+
+                    <div class="flex gap-1">
+                        ${isCancelled ? 
+                            `<button class="btn btn-secondary btn-block" disabled>Ticket Cancelled</button>` :
+                            `<a href="confirmation.html?id=${booking.id}" class="btn btn-primary" style="flex: 1;"><i class="fa-solid fa-qrcode"></i> Ticket</a>
+                             <button onclick="cancelBooking('${booking.id}')" class="btn btn-outline" style="border-color: var(--danger); color: var(--danger);"><i class="fa-solid fa-xmark"></i> Cancel</button>`
+                        }
+                    </div>
+                `;
+                container.appendChild(card);
+            });
+        }
+
+        // Priority 4: Cancellation Logic
+        window.cancelBooking = function(bookingId) {
+            if(!confirm("Are you sure you want to cancel this booking?")) return;
+
+            const bookings = JSON.parse(localStorage.getItem('bookings') || '[]');
+            const bookingIndex = bookings.findIndex(b => b.id === bookingId);
+            
+            if(bookingIndex === -1 || bookings[bookingIndex].status === 'cancelled') return;
+
+            const bookingToCancel = bookings[bookingIndex];
+
+            // 1. Mark as cancelled
+            bookingToCancel.status = "cancelled";
+
+            // 2. Restore Capacity to slot
+            const slots = JSON.parse(localStorage.getItem('slots') || '[]');
+            const slotIndex = slots.findIndex(s => s.id === bookingToCancel.slotId);
+            
+            if(slotIndex !== -1) {
+                // Add groupSize back to capacityRemaining
+                slots[slotIndex].capacityRemaining += parseInt(bookingToCancel.groupSize, 10);
+                localStorage.setItem('slots', JSON.stringify(slots));
+            }
+
+            // Save bookings and re-render
+            localStorage.setItem('bookings', JSON.stringify(bookings));
+            renderBookings();
+        };
+    </script>
 </body>
 </html>

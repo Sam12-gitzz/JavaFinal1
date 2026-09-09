@@ -7,6 +7,12 @@
     <link rel="stylesheet" href="../css/style.css">
 </head>
 <body class="fade-in">
+    <script>
+        const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+        if (!currentUser || currentUser.isAdmin !== true) {
+            window.location.href = '../login.html';
+        }
+    </script>
     <header class="header">
         <div class="container nav">
             <div class="nav-logo" style="color: var(--danger);"><i class="fa-solid fa-shield-halved"></i> FestiFlow Admin</div>
@@ -14,7 +20,7 @@
                 <a href="#">Festivals</a>
                 <a href="#">Points</a>
                 <a href="#">Bookings</a>
-                <a href="../index.html" class="btn btn-outline">Logout</a>
+                <a href="../index.html" class="btn btn-outline" onclick="localStorage.removeItem('currentUser')">Logout</a>
             </div>
         </div>
     </header>
@@ -28,7 +34,7 @@
                     <i class="fa-solid fa-users fa-xl" style="color: var(--primary);"></i>
                 </div>
                 <h3 style="color: var(--text-secondary); font-size: 1.1rem; font-weight: 500;">Total Users</h3>
-                <h1 style="font-size: 2.5rem; color: var(--text-primary);">1,245</h1>
+                <h1 id="admin-total-users" style="font-size: 2.5rem; color: var(--text-primary);"><i class="fa-solid fa-circle-notch fa-spin fa-sm"></i></h1>
             </div>
             
             <div class="card text-center" style="border-top: 5px solid var(--secondary);">
@@ -36,7 +42,7 @@
                     <i class="fa-solid fa-ticket fa-xl" style="color: var(--secondary);"></i>
                 </div>
                 <h3 style="color: var(--text-secondary); font-size: 1.1rem; font-weight: 500;">Active Bookings</h3>
-                <h1 style="font-size: 2.5rem; color: var(--text-primary);">8,920</h1>
+                <h1 id="admin-active-bookings" style="font-size: 2.5rem; color: var(--text-primary);"><i class="fa-solid fa-circle-notch fa-spin fa-sm"></i></h1>
             </div>
             
             <div class="card text-center" style="border-top: 5px solid var(--danger);">
@@ -44,36 +50,70 @@
                     <i class="fa-solid fa-fire fa-xl" style="color: var(--danger);"></i>
                 </div>
                 <h3 style="color: var(--text-secondary); font-size: 1.1rem; font-weight: 500;">High Crowd Spots</h3>
-                <h1 style="font-size: 2.5rem; color: var(--text-primary);">4</h1>
+                <h1 id="admin-high-crowd" style="font-size: 2.5rem; color: var(--text-primary);"><i class="fa-solid fa-circle-notch fa-spin fa-sm"></i></h1>
             </div>
         </div>
 
         <h3 class="mb-2">Recent Bookings</h3>
         <div class="card" style="overflow-x:auto; padding: 0;">
             <table style="width: 100%; text-align: left; border-collapse: collapse;">
-                <tr style="background: var(--bg-warm); border-bottom: 2px solid var(--border);">
-                    <th style="padding: 16px 20px; font-weight: 600; color: var(--text-secondary);">Booking ID</th>
-                    <th style="padding: 16px 20px; font-weight: 600; color: var(--text-secondary);">User</th>
-                    <th style="padding: 16px 20px; font-weight: 600; color: var(--text-secondary);">Location</th>
-                    <th style="padding: 16px 20px; font-weight: 600; color: var(--text-secondary);">Time</th>
-                    <th style="padding: 16px 20px; font-weight: 600; color: var(--text-secondary);">Status</th>
-                </tr>
-                <tr style="border-bottom: 1px solid var(--border); transition: var(--transition);">
-                    <td style="padding: 16px 20px; font-weight: 500;">BKG-9842</td>
-                    <td style="padding: 16px 20px;">John Doe</td>
-                    <td style="padding: 16px 20px;">Girgaon Chowpatty</td>
-                    <td style="padding: 16px 20px;">8:00 PM</td>
-                    <td style="padding: 16px 20px;"><span class="badge badge-success">Confirmed</span></td>
-                </tr>
-                <tr style="border-bottom: 1px solid var(--border); transition: var(--transition);">
-                    <td style="padding: 16px 20px; font-weight: 500;">BKG-1123</td>
-                    <td style="padding: 16px 20px;">Jane Smith</td>
-                    <td style="padding: 16px 20px;">Juhu Beach</td>
-                    <td style="padding: 16px 20px;">7:00 PM</td>
-                    <td style="padding: 16px 20px;"><span class="badge badge-moderate">Waitlisted</span></td>
-                </tr>
+                <thead>
+                    <tr style="background: var(--bg-warm); border-bottom: 2px solid var(--border);">
+                        <th style="padding: 16px 20px; font-weight: 600; color: var(--text-secondary);">Booking ID</th>
+                        <th style="padding: 16px 20px; font-weight: 600; color: var(--text-secondary);">User</th>
+                        <th style="padding: 16px 20px; font-weight: 600; color: var(--text-secondary);">Location</th>
+                        <th style="padding: 16px 20px; font-weight: 600; color: var(--text-secondary);">Size</th>
+                        <th style="padding: 16px 20px; font-weight: 600; color: var(--text-secondary);">Status</th>
+                    </tr>
+                </thead>
+                <tbody id="admin-recent-bookings">
+                    <!-- Populated by JS -->
+                </tbody>
             </table>
         </div>
     </div>
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const users = JSON.parse(localStorage.getItem('users') || '[]');
+            const bookings = JSON.parse(localStorage.getItem('bookings') || '[]');
+            const slots = JSON.parse(localStorage.getItem('slots') || '[]');
+
+            // Calculate Stats
+            const totalUsers = users.length;
+            const activeBookings = bookings.filter(b => b.status === 'confirmed');
+            
+            // High crowd spots (capacityRemaining / capacityTotal < 0.2)
+            const highCrowdSpots = slots.filter(s => s.capacityTotal > 0 && (s.capacityRemaining / s.capacityTotal) < 0.2).length;
+
+            document.getElementById('admin-total-users').innerText = totalUsers.toLocaleString();
+            document.getElementById('admin-active-bookings').innerText = activeBookings.length.toLocaleString();
+            document.getElementById('admin-high-crowd').innerText = highCrowdSpots;
+
+            // Render Table (Latest 10 bookings)
+            const tableBody = document.getElementById('admin-recent-bookings');
+            if (bookings.length === 0) {
+                tableBody.innerHTML = '<tr><td colspan="5" style="padding: 20px; text-align: center; color: var(--text-secondary);">No bookings found in the system.</td></tr>';
+            } else {
+                const latestBookings = [...bookings].reverse().slice(0, 10);
+                latestBookings.forEach(b => {
+                    const isCancelled = b.status === 'cancelled';
+                    const badgeClass = isCancelled ? 'badge-high' : 'badge-success';
+                    const statusText = isCancelled ? 'Cancelled' : 'Confirmed';
+                    const style = isCancelled ? 'opacity: 0.6;' : '';
+
+                    const row = document.createElement('tr');
+                    row.style.cssText = `border-bottom: 1px solid var(--border); transition: var(--transition); ${style}`;
+                    row.innerHTML = `
+                        <td style="padding: 16px 20px; font-weight: 500;">${b.id}</td>
+                        <td style="padding: 16px 20px;">${b.userName}<br><small style="color:var(--text-secondary);">${b.userEmail}</small></td>
+                        <td style="padding: 16px 20px;">${b.pointName}<br><small style="color:var(--text-secondary);">${b.slotTime}</small></td>
+                        <td style="padding: 16px 20px;"><i class="fa-solid fa-users" style="color:var(--secondary); font-size:0.8rem;"></i> ${b.groupSize}</td>
+                        <td style="padding: 16px 20px;"><span class="badge ${badgeClass}">${statusText}</span></td>
+                    `;
+                    tableBody.appendChild(row);
+                });
+            }
+        });
+    </script>
 </body>
 </html>
