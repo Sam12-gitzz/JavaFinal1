@@ -3,211 +3,181 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Confirm Booking - FestiFlow</title>
-    <link rel="stylesheet" href="css/style.css">
-    <script src='js/store.js'></script>
+    <title>Booking Details - FestiFlow</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="js/tailwind-config.js"></script>
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="css/custom.css">
 </head>
-<body class="fade-in">
-    <header class="header">
-        <div class="container nav">
-            <div class="nav-logo"><a href="dashboard.html"><i class="fa-solid fa-water"></i> FestiFlow</a></div>
-            <div class="nav-links">
-                <a href="dashboard.html">Dashboard</a>
-            </div>
-        </div>
-    </header>
+<body class="bg-slate-50 font-sans min-h-screen flex flex-col">
+    
+    <div id="navbar-placeholder"></div>
 
-    <div class="container mt-3 mb-3" style="max-width: 700px;">
+    <main class="flex-grow max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-8 w-full">
         
         <!-- Booking Stepper -->
-        <div class="stepper mb-3">
-            <div class="step active">
-                <div class="step-circle"><i class="fa-solid fa-check"></i></div>
-                <span>Festival</span>
-            </div>
-            <div class="step active">
-                <div class="step-circle"><i class="fa-solid fa-check"></i></div>
-                <span>Point & Slot</span>
-            </div>
-            <div class="step active">
-                <div class="step-circle">3</div>
-                <span>Details</span>
-            </div>
-            <div class="step">
-                <div class="step-circle">4</div>
-                <span>Confirm</span>
+        <div class="max-w-3xl mx-auto mb-10" data-aos="fade-down" data-aos-duration="500">
+            <div class="flex items-center justify-between relative">
+                <div class="absolute left-0 top-1/2 transform -translate-y-1/2 w-full h-1 bg-slate-200 z-0 rounded-full"></div>
+                <div class="absolute left-0 top-1/2 transform -translate-y-1/2 w-2/3 h-1 bg-festival-violet z-0 rounded-full transition-all duration-500"></div>
+                
+                <div class="relative z-10 flex flex-col items-center gap-2">
+                    <div class="w-10 h-10 rounded-full bg-festival-violet text-white font-bold flex items-center justify-center shadow-md">
+                        <i class="fa-solid fa-check"></i>
+                    </div>
+                </div>
+                
+                <div class="relative z-10 flex flex-col items-center gap-2">
+                    <div class="w-10 h-10 rounded-full bg-festival-violet text-white font-bold flex items-center justify-center shadow-md">
+                        <i class="fa-solid fa-check"></i>
+                    </div>
+                </div>
+                
+                <div class="relative z-10 flex flex-col items-center gap-2">
+                    <div class="w-10 h-10 rounded-full bg-festival-violet text-white font-bold flex items-center justify-center shadow-md ring-4 ring-violet-100">
+                        3
+                    </div>
+                    <span class="text-xs font-bold text-festival-violet hidden sm:block uppercase tracking-wide">Details</span>
+                </div>
+                
+                <div class="relative z-10 flex flex-col items-center gap-2">
+                    <div class="w-10 h-10 rounded-full bg-slate-200 text-slate-500 font-bold flex items-center justify-center border-2 border-white">
+                        4
+                    </div>
+                    <span class="text-xs font-bold text-slate-400 hidden sm:block uppercase tracking-wide">Confirm</span>
+                </div>
             </div>
         </div>
 
-        <div class="card" style="border-top: 4px solid var(--primary);">
-            <h2 class="mb-2 text-center">Complete Your Booking</h2>
+        <div class="max-w-2xl mx-auto bg-white rounded-2xl shadow-xl overflow-hidden" data-aos="zoom-in" data-aos-duration="600">
+            <div class="h-2 bg-gradient-to-r from-festival-violet to-festival-fuchsia w-full"></div>
             
-            <div class="mb-2" style="background: var(--bg-blue); padding: 20px; border-radius: var(--radius-sm); border: 1px solid #bfdbfe;">
-                <h4 style="color: var(--secondary-dark); margin-bottom: 10px;"><i class="fa-solid fa-calendar-check"></i> Booking Summary</h4>
-                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
-                    <div><small style="color: var(--text-secondary);">Festival</small><br><strong>Ganesh Visarjan 2024</strong></div>
-                    <div><small style="color: var(--text-secondary);">Date</small><br><strong>Sept 17, 2024</strong></div>
-                    <div><small style="color: var(--text-secondary);">Location</small><br><strong id="b-location"><i class="fa-solid fa-circle-notch fa-spin"></i></strong></div>
-                    <div><small style="color: var(--text-secondary);">Time Slot</small><br><strong id="b-time"><i class="fa-solid fa-circle-notch fa-spin"></i></strong></div>
+            <div class="p-8 sm:p-10">
+                <h2 class="text-3xl font-extrabold text-festival-slate mb-6 flex items-center gap-3">
+                    <i class="fa-solid fa-ticket text-festival-violet"></i> Booking Details
+                </h2>
+                
+                <!-- Summary Card -->
+                <div class="bg-indigo-50 border border-indigo-100 rounded-xl p-6 mb-8">
+                    <h4 class="text-festival-violet font-bold mb-4 flex items-center gap-2">
+                        <i class="fa-solid fa-calendar-check"></i> Summary
+                    </h4>
+                    <div class="grid grid-cols-2 gap-4">
+                        <div>
+                            <small class="text-indigo-400 font-semibold uppercase tracking-wider text-xs">Festival</small>
+                            <br><strong id="b-festival" class="text-slate-700">Loading...</strong>
+                        </div>
+                        <div>
+                            <small class="text-indigo-400 font-semibold uppercase tracking-wider text-xs">Date</small>
+                            <br><strong id="b-date" class="text-slate-700">Sept 14, 2026</strong>
+                        </div>
+                        <div>
+                            <small class="text-indigo-400 font-semibold uppercase tracking-wider text-xs">Location</small>
+                            <br><strong id="b-location" class="text-slate-700"><i class="fa-solid fa-circle-notch fa-spin"></i></strong>
+                        </div>
+                        <div>
+                            <small class="text-indigo-400 font-semibold uppercase tracking-wider text-xs">Time Slot</small>
+                            <br><strong id="b-time" class="text-slate-700"><i class="fa-solid fa-circle-notch fa-spin"></i></strong>
+                        </div>
+                    </div>
                 </div>
-            </div>
-            
-            <form id="booking-form">
-                <div class="form-group">
-                    <label>Group Size (Max 15)</label>
-                    <input type="number" id="groupSize" class="form-control" min="1" max="15" required value="1">
-                </div>
-                <div class="form-group">
-                    <label>Primary Contact (Optional)</label>
-                    <input type="text" class="form-control" placeholder="+91 XXXXX XXXXX">
-                </div>
-                <div class="mt-3 flex gap-1">
-                    <a href="points.html" class="btn btn-secondary btn-block">Back</a>
-                    <button type="submit" class="btn btn-primary btn-block">Confirm Booking <i class="fa-solid fa-arrow-right"></i></button>
-                </div>
-</head>
-<body class="fade-in">
-    <header class="header">
-        <div class="container nav">
-            <div class="nav-logo"><a href="dashboard.html"><i class="fa-solid fa-water"></i> FestiFlow</a></div>
-            <div class="nav-links">
-                <a href="dashboard.html">Dashboard</a>
+                
+                <form id="booking-form" class="space-y-6">
+                    <div>
+                        <label class="block text-sm font-semibold text-slate-700 mb-2">Group Size (Max 15)</label>
+                        <input type="number" id="groupSize" class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-festival-violet focus:border-transparent transition-colors shadow-sm outline-none" min="1" max="15" required value="1">
+                        <p id="capacity-helper" class="text-xs text-slate-500 font-medium mt-1"></p>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-semibold text-slate-700 mb-2">Primary Contact (Optional)</label>
+                        <input type="text" class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-festival-violet focus:border-transparent transition-colors shadow-sm outline-none" placeholder="+91 XXXXX XXXXX">
+                    </div>
+                    
+                    <div id="bookingError" class="hidden bg-red-50 text-red-600 px-4 py-3 rounded-lg text-sm font-medium border border-red-100 flex items-center gap-2">
+                        <i class="fa-solid fa-circle-exclamation"></i>
+                        <span id="bookingErrorText">An error occurred.</span>
+                    </div>
+
+                    <div class="flex flex-col-reverse sm:flex-row gap-3 pt-4">
+                        <a href="points.html" class="w-full sm:w-1/3 px-6 py-3 border-2 border-slate-200 text-slate-600 rounded-lg font-bold hover:bg-slate-50 transition-colors text-center">Back</a>
+                        <button type="submit" id="confirmBtn" class="w-full sm:w-2/3 bg-festival-gradient text-white py-3 rounded-lg font-bold shadow-lg hover:shadow-xl hover:scale-[1.02] transition-all duration-300">
+                            Confirm Booking <i class="fa-solid fa-arrow-right ml-1"></i>
+                        </button>
+                    </div>
+                </form>
             </div>
         </div>
-    </header>
+    </main>
 
-    <div class="container mt-3 mb-3" style="max-width: 700px;">
-        
-        <!-- Booking Stepper -->
-        <div class="stepper mb-3">
-            <div class="step active">
-                <div class="step-circle"><i class="fa-solid fa-check"></i></div>
-                <span>Festival</span>
-            </div>
-            <div class="step active">
-                <div class="step-circle"><i class="fa-solid fa-check"></i></div>
-                <span>Point & Slot</span>
-            </div>
-            <div class="step active">
-                <div class="step-circle">3</div>
-                <span>Details</span>
-            </div>
-            <div class="step">
-                <div class="step-circle">4</div>
-                <span>Confirm</span>
-            </div>
-        </div>
+    <div id="footer-placeholder"></div>
 
-        <div class="card" style="border-top: 4px solid var(--primary);">
-            <h2 class="mb-2 text-center">Complete Your Booking</h2>
-            
-            <div class="mb-2" style="background: var(--bg-blue); padding: 20px; border-radius: var(--radius-sm); border: 1px solid #bfdbfe;">
-                <h4 style="color: var(--secondary-dark); margin-bottom: 10px;"><i class="fa-solid fa-calendar-check"></i> Booking Summary</h4>
-                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
-                    <div><small style="color: var(--text-secondary);">Festival</small><br><strong>Ganesh Visarjan 2024</strong></div>
-                    <div><small style="color: var(--text-secondary);">Date</small><br><strong>Sept 17, 2024</strong></div>
-                    <div><small style="color: var(--text-secondary);">Location</small><br><strong id="b-location"><i class="fa-solid fa-circle-notch fa-spin"></i></strong></div>
-                    <div><small style="color: var(--text-secondary);">Time Slot</small><br><strong id="b-time"><i class="fa-solid fa-circle-notch fa-spin"></i></strong></div>
-                </div>
-            </div>
-            
-            <form id="booking-form">
-                <div class="form-group">
-                    <label>Group Size (Max 15)</label>
-                    <input type="number" id="groupSize" class="form-control" min="1" max="15" required value="1">
-                </div>
-                <div class="form-group">
-                    <label>Primary Contact (Optional)</label>
-                    <input type="text" class="form-control" placeholder="+91 XXXXX XXXXX">
-                </div>
-                <div class="mt-3 flex gap-1">
-                    <a href="points.html" class="btn btn-secondary btn-block">Back</a>
-                    <button type="submit" class="btn btn-primary btn-block">Confirm Booking <i class="fa-solid fa-arrow-right"></i></button>
-                </div>
-            </form>
-        </div>
-    </div>
-
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script src="js/store.js"></script>
     <script src="js/api.js"></script>
+    <script src="js/ui.js"></script>
     <script>
+        AOS.init({ once: true });
+        UI.init();
+
         document.addEventListener("DOMContentLoaded", async () => {
             const urlParams = new URLSearchParams(window.location.search);
             const slotId = parseInt(urlParams.get('slot'));
-            const pointId = parseInt(urlParams.get('point'));
             
-            // Security check
             const currentUser = Store.getCurrentUser();
             if (!currentUser) {
                 window.location.href = 'login.html';
                 return;
             }
 
-            const slot = Store.getSlot(slotId);
+            const slot = await api.getSlotById(slotId);
             if(!slot) {
-                alert("Invalid slot selected.");
                 window.location.href = 'dashboard.html';
                 return;
             }
 
-            // Using mock API just for display names (since Store only has IDs)
+            const festivals = await api.getFestivals();
+            const fest = festivals.find(f => f.id === slot.festival);
             const points = await api.getPoints(slot.festival);
             const point = points.find(p => p.id === slot.point);
 
+            document.getElementById('b-festival').innerText = fest ? fest.name : "Ganesh Visarjan 2026";
             document.getElementById('b-location').innerText = point ? point.name : "Unknown Location";
             document.getElementById('b-time').innerText = slot.time;
             
             const groupSizeInput = document.getElementById('groupSize');
-            // Update max to equal capacityRemaining dynamically
             groupSizeInput.max = slot.capacityRemaining;
             
-            // Add a visual helper text for max capacity
-            const formGroup = groupSizeInput.parentElement;
-            const helperText = document.createElement('small');
-            helperText.style.color = "var(--text-secondary)";
-            helperText.innerText = `Only ${slot.capacityRemaining} spots remaining in this slot.`;
-            formGroup.appendChild(helperText);
+            document.getElementById('capacity-helper').innerText = `Only ${slot.capacityRemaining} spots remaining in this slot.`;
 
-            document.getElementById('booking-form').addEventListener('submit', (e) => {
+            document.getElementById('booking-form').addEventListener('submit', async (e) => {
                 e.preventDefault();
+                UI.clearError('groupSize', 'bookingError');
+                
                 const groupSize = parseInt(groupSizeInput.value);
                 
-                // Re-fetch slot in case it changed in localStorage while user was idle
-                const currentSlot = Store.getSlot(slotId);
+                UI.showLoading('confirmBtn', 'Processing Booking...');
                 
-                if (groupSize > currentSlot.capacityRemaining) {
-                    alert(`Cannot book! Only ${currentSlot.capacityRemaining} spots left. Please reduce group size or choose another slot.`);
-                    return;
+                try {
+                    const res = await api.bookSlot({
+                        userId: currentUser.id,
+                        userName: currentUser.name,
+                        userEmail: currentUser.email,
+                        festivalName: fest ? fest.name : "Ganesh Visarjan 2026",
+                        pointName: point ? point.name : "Unknown Location",
+                        slotTime: slot.time,
+                        date: "Sept 14, 2026",
+                        slotId: slotId,
+                        groupSize: groupSize
+                    });
+                    
+                    window.location.href = `confirmation.html?id=${res.bookingId}`;
+                } catch (error) {
+                    UI.hideLoading('confirmBtn');
+                    document.getElementById('bookingErrorText').innerText = error.message;
+                    document.getElementById('bookingError').classList.remove('hidden');
+                    UI.showError('groupSize', null, null);
                 }
-                
-                const btn = e.target.querySelector('button[type="submit"]');
-                btn.innerHTML = '<i class="fa-solid fa-circle-notch fa-spin"></i> Processing...';
-                
-                // STEP 1 LOGIC: Execute booking
-                const newRemaining = currentSlot.capacityRemaining - groupSize;
-                Store.updateSlotCapacity(slotId, newRemaining);
-                
-                const bookingId = "BKG-" + Math.floor(Math.random() * 10000);
-                const qrPayload = `FESTIFLOW|${bookingId}|${currentUser.id}|${slotId}|${groupSize}`;
-                
-                const newBooking = {
-                    id: bookingId,
-                    userId: currentUser.id,
-                    userName: currentUser.name,
-                    userEmail: currentUser.email,
-                    pointName: point ? point.name : "Unknown Location",
-                    slotTime: currentSlot.time,
-                    date: "Sept 17, 2026", // Mock hardcoded date for now
-                    slotId: slotId,
-                    groupSize: groupSize,
-                    status: "confirmed",
-                    qrCode: qrPayload,
-                    createdAt: new Date().toISOString()
-                };
-                
-                Store.addBooking(newBooking);
-                
-                // Redirect
-                window.location.href = `confirmation.html?id=${bookingId}`;
             });
         });
     </script>

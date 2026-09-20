@@ -1,37 +1,60 @@
 document.addEventListener("DOMContentLoaded", async () => {
     const container = document.getElementById("festivals-container");
-    container.innerHTML = "<p>Loading festivals...</p>";
-
-    // Fetch mock data from our api.js
-    const festivals = await api.getFestivals();
-    container.innerHTML = "";
-
-    festivals.forEach(fest => {
-        const card = document.createElement("div");
-        card.className = "card card-festival";
+    
+    try {
+        const festivals = await api.getFestivals();
+        container.innerHTML = "";
         
-        const badgeClass = fest.status === 'Active' ? 'badge-success' : 'badge-warning';
-        const imgUrl = fest.id === 1 
-            ? "images/ganesh-visarjan.jpg" 
-            : "https://images.unsplash.com/photo-1514525253161-7a46d19cd819?auto=format&fit=crop&w=600&q=80";
-        
-        card.innerHTML = `
-            <div class="card-img-wrapper">
-                <img src="${imgUrl}" alt="${fest.name}" class="card-img">
-                <div style="position: absolute; top: 15px; right: 15px;">
-                    <span class="badge ${badgeClass}"><i class="fa-solid fa-bolt"></i> ${fest.status}</span>
-                </div>
-            </div>
-            <div class="card-festival-body">
-                <h3 class="mb-1">${fest.name}</h3>
-                <p class="mb-1" style="font-size: 0.9rem;"><i class="fa-regular fa-calendar" style="color: var(--secondary);"></i> ${fest.date}</p>
-                <p class="mb-2 flex-1">${fest.desc}</p>
-                <div class="flex flex-between align-center mt-auto">
-                    <span style="font-weight: 500; font-size: 0.9rem;"><i class="fa-solid fa-location-dot" style="color: var(--secondary);"></i> ${fest.pointsCount} Points</span>
-                    <a href="points.html?festival=${fest.id}" class="btn btn-outline">Explore <i class="fa-solid fa-arrow-right"></i></a>
-                </div>
-            </div>
-        `;
-        container.appendChild(card);
-    });
+        if(festivals.length === 0) {
+            container.innerHTML = `<p class="col-span-full text-center text-slate-500 py-10">No festivals found.</p>`;
+            return;
+        }
+
+        festivals.forEach((fest, index) => {
+            container.insertAdjacentHTML('beforeend', cardTemplate(fest, index));
+        });
+    } catch(err) {
+        container.innerHTML = `<p class="col-span-full text-center text-red-500 py-10">Error loading festivals.</p>`;
+    }
 });
+
+function cardTemplate(fest, index) {
+    const badgeColor = fest.status === 'Active' 
+        ? 'bg-green-100 text-green-700 border-green-200' 
+        : 'bg-orange-100 text-orange-700 border-orange-200';
+        
+    const imgUrl = fest.id === 1 
+        ? "images/ganesh-visarjan.jpg" 
+        : "https://images.unsplash.com/photo-1514525253161-7a46d19cd819?auto=format&fit=crop&w=600&q=80";
+        
+    const delay = index * 100;
+
+    return `
+        <div class="bg-white rounded-2xl shadow-sm hover:shadow-xl border border-slate-100 overflow-hidden transition-all duration-300 transform hover:-translate-y-1 flex flex-col group" data-aos="fade-up" data-aos-delay="${delay}">
+            <div class="relative h-48 overflow-hidden bg-slate-200">
+                <img src="${imgUrl}" alt="${fest.name}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                <div class="absolute top-4 right-4">
+                    <span class="px-3 py-1 text-xs font-bold uppercase tracking-wider rounded-full border shadow-sm flex items-center gap-1 ${badgeColor} backdrop-blur-md bg-opacity-90">
+                        <i class="fa-solid fa-bolt"></i> ${fest.status}
+                    </span>
+                </div>
+            </div>
+            <div class="p-6 flex flex-col flex-grow">
+                <h3 class="text-xl font-bold text-festival-slate mb-2 group-hover:text-festival-violet transition-colors">${fest.name}</h3>
+                <p class="text-slate-500 text-sm font-medium mb-3 flex items-center gap-2">
+                    <i class="fa-regular fa-calendar text-festival-secondary text-festival-fuchsia"></i> ${fest.date}
+                </p>
+                <p class="text-slate-600 text-sm mb-6 flex-grow leading-relaxed">${fest.desc}</p>
+                
+                <div class="flex justify-between items-center mt-auto pt-4 border-t border-slate-100">
+                    <span class="text-sm font-semibold text-slate-700 flex items-center gap-1">
+                        <i class="fa-solid fa-location-dot text-festival-orange"></i> ${fest.pointsCount} Points
+                    </span>
+                    <a href="points.html?festival=${fest.id}" class="px-4 py-2 bg-slate-50 hover:bg-festival-violet hover:text-white text-festival-slate rounded-lg font-semibold text-sm transition-colors shadow-sm flex items-center gap-2">
+                        Explore <i class="fa-solid fa-arrow-right"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    `;
+}

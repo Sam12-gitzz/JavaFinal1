@@ -4,62 +4,152 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Booking Confirmed - FestiFlow</title>
-    <link rel="stylesheet" href="css/style.css">
-    <script src='js/store.js'></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="js/tailwind-config.js"></script>
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="css/custom.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 </head>
-<body class="fade-in">
-    <header class="header">
-        <div class="container nav">
-            <div class="nav-logo"><a href="dashboard.html"><i class="fa-solid fa-water"></i> FestiFlow</a></div>
-        </div>
-    </header>
+<body class="bg-slate-50 font-sans min-h-screen flex flex-col">
+    
+    <div id="navbar-placeholder"></div>
 
-    <div class="container mt-3 mb-3" style="max-width: 650px;">
+    <main class="flex-grow max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-8 w-full">
         
         <!-- Booking Stepper -->
-        <div class="stepper mb-3">
-            <div class="step active"><div class="step-circle"><i class="fa-solid fa-check"></i></div></div>
-            <div class="step active"><div class="step-circle"><i class="fa-solid fa-check"></i></div></div>
-            <div class="step active"><div class="step-circle"><i class="fa-solid fa-check"></i></div></div>
-            <div class="step active">
-                <div class="step-circle"><i class="fa-solid fa-check"></i></div>
-                <span>Confirmed</span>
-            </div>
-        </div>
-
-        <div class="card text-center" style="border-top: 6px solid var(--success); padding: 40px 20px;">
-            <div style="width: 80px; height: 80px; background: #f0fdf4; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 20px;">
-                <i class="fa-solid fa-check fa-3x" style="color: var(--success);"></i>
-            </div>
-            <h2 class="mb-1">Booking Confirmed!</h2>
-            <p class="mb-2">Your slot has been reserved. Please show this QR code at the entry point.</p>
-            
-            <div class="mb-3" style="background: var(--surface); padding: 20px; border-radius: var(--radius-md); display:inline-block; border: 2px dashed var(--border); box-shadow: var(--shadow-sm);">
-                <i class="fa-solid fa-qrcode fa-6x" style="color: var(--text-primary);"></i>
-                <p class="mt-1" style="font-size: 1.2rem;"><strong>ID: <span id="booking-id">BKG-XXXX</span></strong></p>
-            </div>
-            
-            <div class="text-left mb-3" style="background: var(--bg-warm); padding: 20px; border-radius: var(--radius-sm); border: 1px solid #fed7aa;">
-                <h4 class="mb-1" style="color: var(--primary-dark);"><i class="fa-solid fa-ticket"></i> Entry Details</h4>
-                <div class="grid" style="grid-template-columns: 1fr 1fr; gap: 10px;">
-                    <div><small style="color: var(--text-secondary);">Location</small><br><strong>Girgaon Chowpatty</strong></div>
-                    <div><small style="color: var(--text-secondary);">Time</small><br><strong>8:00 PM - 9:00 PM</strong></div>
-                    <div><small style="color: var(--text-secondary);">Date</small><br><strong>Sept 17, 2024</strong></div>
-                    <div><small style="color: var(--text-secondary);">Group Size</small><br><strong>4 People</strong></div>
+        <div class="max-w-3xl mx-auto mb-10" data-aos="fade-down" data-aos-duration="500">
+            <div class="flex items-center justify-between relative">
+                <div class="absolute left-0 top-1/2 transform -translate-y-1/2 w-full h-1 bg-slate-200 z-0 rounded-full"></div>
+                <div class="absolute left-0 top-1/2 transform -translate-y-1/2 w-full h-1 bg-festival-violet z-0 rounded-full transition-all duration-500"></div>
+                
+                <div class="relative z-10 flex flex-col items-center gap-2">
+                    <div class="w-10 h-10 rounded-full bg-festival-violet text-white font-bold flex items-center justify-center shadow-md">
+                        <i class="fa-solid fa-check"></i>
+                    </div>
+                </div>
+                
+                <div class="relative z-10 flex flex-col items-center gap-2">
+                    <div class="w-10 h-10 rounded-full bg-festival-violet text-white font-bold flex items-center justify-center shadow-md">
+                        <i class="fa-solid fa-check"></i>
+                    </div>
+                </div>
+                
+                <div class="relative z-10 flex flex-col items-center gap-2">
+                    <div class="w-10 h-10 rounded-full bg-festival-violet text-white font-bold flex items-center justify-center shadow-md">
+                        <i class="fa-solid fa-check"></i>
+                    </div>
+                </div>
+                
+                <div class="relative z-10 flex flex-col items-center gap-2">
+                    <div class="w-10 h-10 rounded-full bg-festival-violet text-white font-bold flex items-center justify-center shadow-md ring-4 ring-violet-100">
+                        <i class="fa-solid fa-flag-checkered"></i>
+                    </div>
+                    <span class="text-xs font-bold text-festival-violet hidden sm:block uppercase tracking-wide">Confirm</span>
                 </div>
             </div>
+        </div>
+
+        <div class="max-w-2xl mx-auto bg-white rounded-2xl shadow-xl overflow-hidden text-center" data-aos="zoom-in" data-aos-duration="600">
+            <div class="h-2 bg-gradient-to-r from-green-400 to-green-600 w-full"></div>
             
-            <div class="flex gap-1 flex-center" style="justify-content: center;">
-                <a href="dashboard.html" class="btn btn-primary"><i class="fa-solid fa-house"></i> Home</a>
-                <a href="my-bookings.html" class="btn btn-secondary">View My Bookings</a>
+            <div class="p-8 sm:p-12 relative overflow-hidden">
+                <div class="absolute -top-10 -right-10 w-40 h-40 bg-green-50 rounded-full -z-0"></div>
+                <div class="absolute -bottom-10 -left-10 w-40 h-40 bg-green-50 rounded-full -z-0"></div>
+                
+                <div class="relative z-10">
+                    <div class="w-24 h-24 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-6 shadow-inner ring-4 ring-white">
+                        <i class="fa-solid fa-check text-5xl text-green-500"></i>
+                    </div>
+                    
+                    <h2 class="text-3xl font-extrabold text-festival-slate mb-2">Booking Confirmed!</h2>
+                    <p class="text-slate-500 font-medium mb-8">Your slot has been successfully reserved.</p>
+                    
+                    <div class="bg-slate-50 border border-slate-200 rounded-2xl p-6 sm:p-8 mb-8 inline-block max-w-sm w-full shadow-sm">
+                        <div id="qrcode-container" class="flex justify-center mb-4 bg-white p-4 rounded-xl shadow-inner border border-slate-100"></div>
+                        <p class="text-xs font-bold text-slate-400 uppercase tracking-widest mb-1">Booking ID</p>
+                        <h3 id="conf-id" class="text-xl font-extrabold text-festival-violet tracking-wider">LOADING</h3>
+                    </div>
+                    
+                    <div class="grid grid-cols-2 gap-y-6 gap-x-4 text-left max-w-sm mx-auto mb-10">
+                        <div>
+                            <small class="text-slate-400 font-bold uppercase tracking-wider text-[10px]">Festival</small>
+                            <br><strong id="conf-festival" class="text-slate-700">Loading...</strong>
+                        </div>
+                        <div>
+                            <small class="text-slate-400 font-bold uppercase tracking-wider text-[10px]">Date</small>
+                            <br><strong id="conf-date" class="text-slate-700">Loading...</strong>
+                        </div>
+                        <div>
+                            <small class="text-slate-400 font-bold uppercase tracking-wider text-[10px]">Location</small>
+                            <br><strong id="conf-location" class="text-slate-700">Loading...</strong>
+                        </div>
+                        <div>
+                            <small class="text-slate-400 font-bold uppercase tracking-wider text-[10px]">Time Slot</small>
+                            <br><strong id="conf-time" class="text-slate-700">Loading...</strong>
+                        </div>
+                        <div class="col-span-2 border-t border-slate-200 pt-4 mt-2">
+                            <small class="text-slate-400 font-bold uppercase tracking-wider text-[10px]">Group Size</small>
+                            <br><strong class="text-slate-700 flex items-center gap-2"><i class="fa-solid fa-users text-festival-fuchsia"></i> <span id="conf-size">Loading...</span> people</strong>
+                        </div>
+                    </div>
+                    
+                    <div class="flex flex-col sm:flex-row justify-center gap-3">
+                        <a href="dashboard.html" class="px-6 py-3 border-2 border-slate-200 text-slate-600 rounded-lg font-bold hover:bg-slate-50 transition-colors">Home</a>
+                        <a href="my-bookings.html" class="px-6 py-3 bg-festival-gradient text-white rounded-lg font-bold shadow-md hover:shadow-lg hover:scale-105 transition-all">View My Bookings</a>
+                    </div>
+                </div>
             </div>
         </div>
-    </div>
+    </main>
 
+    <div id="footer-placeholder"></div>
+
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script src="js/store.js"></script>
+    <script src="js/api.js"></script>
+    <script src="js/ui.js"></script>
     <script>
-        const urlParams = new URLSearchParams(window.location.search);
-        const id = urlParams.get('id') || 'BKG-1234';
-        document.getElementById('booking-id').innerText = id;
+        AOS.init({ once: true });
+        UI.init();
+
+        document.addEventListener("DOMContentLoaded", async () => {
+            const urlParams = new URLSearchParams(window.location.search);
+            const bookingId = urlParams.get('id');
+            
+            const currentUser = Store.getCurrentUser();
+            if (!currentUser) {
+                window.location.href = 'login.html';
+                return;
+            }
+
+            const bookings = await api.getBookings();
+            const booking = bookings.find(b => b.id === bookingId && b.userId === currentUser.id);
+
+            if (!booking) {
+                alert("Booking not found!");
+                window.location.href = 'dashboard.html';
+                return;
+            }
+
+            document.getElementById('conf-id').innerText = booking.id;
+            document.getElementById('conf-festival').innerText = booking.festivalName;
+            document.getElementById('conf-location').innerText = booking.pointName;
+            document.getElementById('conf-time').innerText = booking.slotTime;
+            document.getElementById('conf-date').innerText = booking.date;
+            document.getElementById('conf-size').innerText = booking.groupSize;
+
+            const qrContainer = document.getElementById('qrcode-container');
+            qrContainer.innerHTML = ''; 
+            new QRCode(qrContainer, {
+                text: booking.qrCode,
+                width: 128,
+                height: 128,
+                colorDark : "#0f172a",
+                colorLight : "#ffffff",
+                correctLevel : QRCode.CorrectLevel.H
+            });
+        });
     </script>
 </body>
 </html>
