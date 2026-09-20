@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Immersion Points - FestiFlow</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="js/tailwind-config.js"></script>
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="css/custom.css">
+</head>
+<body class="bg-slate-50 font-sans min-h-screen flex flex-col">
+    
+    <div id="navbar-placeholder"></div>
+
+    <main class="flex-grow max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-8 w-full">
+        
+        <!-- Booking Stepper -->
+        <div class="max-w-3xl mx-auto mb-10" data-aos="fade-down" data-aos-duration="500">
+            <div class="flex items-center justify-between relative">
+                <div class="absolute left-0 top-1/2 transform -translate-y-1/2 w-full h-1 bg-slate-200 z-0 rounded-full"></div>
+                <div class="absolute left-0 top-1/2 transform -translate-y-1/2 w-1/3 h-1 bg-festival-violet z-0 rounded-full transition-all duration-500"></div>
+                
+                <div class="relative z-10 flex flex-col items-center gap-2">
+                    <div class="w-10 h-10 rounded-full bg-festival-violet text-white font-bold flex items-center justify-center shadow-md">
+                        <i class="fa-solid fa-check"></i>
+                    </div>
+                    <span class="text-xs font-bold text-festival-violet hidden sm:block uppercase tracking-wide">Festival</span>
+                </div>
+                
+                <div class="relative z-10 flex flex-col items-center gap-2">
+                    <div class="w-10 h-10 rounded-full bg-festival-violet text-white font-bold flex items-center justify-center shadow-md ring-4 ring-violet-100">
+                        2
+                    </div>
+                    <span class="text-xs font-bold text-festival-violet hidden sm:block uppercase tracking-wide">Point & Slot</span>
+                </div>
+                
+                <div class="relative z-10 flex flex-col items-center gap-2">
+                    <div class="w-10 h-10 rounded-full bg-slate-200 text-slate-500 font-bold flex items-center justify-center border-2 border-white">
+                        3
+                    </div>
+                    <span class="text-xs font-bold text-slate-400 hidden sm:block uppercase tracking-wide">Details</span>
+                </div>
+                
+                <div class="relative z-10 flex flex-col items-center gap-2">
+                    <div class="w-10 h-10 rounded-full bg-slate-200 text-slate-500 font-bold flex items-center justify-center border-2 border-white">
+                        4
+                    </div>
+                    <span class="text-xs font-bold text-slate-400 hidden sm:block uppercase tracking-wide">Confirm</span>
+                </div>
+            </div>
+        </div>
+
+        <h2 class="text-3xl font-extrabold text-festival-slate mb-6 flex items-center gap-3">
+            <i class="fa-solid fa-map-location-dot text-festival-orange"></i> Select Immersion Point
+        </h2>
+        
+        <div id="smart-recommendation" class="mb-10 hidden" data-aos="zoom-in" data-aos-duration="500"></div>
+        
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" id="points-container">
+            <!-- Points loaded via points.js -->
+            <div class="col-span-full text-center py-12 text-slate-500 font-medium flex flex-col items-center justify-center gap-3">
+                <i class="fa-solid fa-circle-notch fa-spin text-3xl text-festival-violet"></i>
+                <p>Loading immersion points...</p>
+            </div>
+        </div>
+    </main>
+
+    <div id="footer-placeholder"></div>
+
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script src="js/store.js"></script>
+    <script src="js/api.js"></script>
+    <script src="js/ui.js"></script>
+    <script src="js/points.js"></script>
+    <script>
+        AOS.init({ once: true });
+        UI.init();
+    </script>
+</body>
+</html>
